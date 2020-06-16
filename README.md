@@ -1,1 +1,1 @@
-yaram içerde
+https://www.youtube.com/watch?v=NTmWyGNMAZY
