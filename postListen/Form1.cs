@@ -130,7 +130,7 @@ namespace postListen
                 if(listView1.SelectedItems.Count > 0)
                 {
                     listView1.SelectedItems[0].Text = textBox1.Text;
-                    listView1.SelectedItems[1].Text = textBox2.Text;
+                    listView1.SelectedItems[0].SubItems[1].Text = textBox2.Text;
                 }
                 else
                 {
@@ -174,8 +174,12 @@ namespace postListen
         {
             if(listView1.SelectedItems.Count > 0)
             {
-                openedThread[listView1.SelectedItems[0].Text].Abort();
-                openedThread.Remove(listView1.SelectedItems[0].Text);
+                try
+                {
+                    openedThread[listView1.SelectedItems[0].Text].Abort();
+                    openedThread.Remove(listView1.SelectedItems[0].Text);
+                }
+                catch (Exception) { }
                 listView1.SelectedItems[0].Remove();
                 label1.Text = "Toplam: " + listView1.Items.Count.ToString();
             }
