@@ -8,9 +8,10 @@ namespace postListen
     public partial class Bildirim : Form
     {
         SoundPlayer sp;
-        public Bildirim(string yazar, string zaman, string konuAdi, bool sesli_mi)
+        public Bildirim(string yazar, string zaman, string konuAdi, bool sesli_mi, int gozukme_Suresi)
         {
             InitializeComponent();
+            timer1.Interval = gozukme_Suresi * 1000;
             if (sesli_mi == true) { sp = new SoundPlayer("notify.wav"); sp.Play(); }
             Screen ekran = Screen.FromPoint(Location);
             Location = new Point(ekran.WorkingArea.Right - Width, ekran.WorkingArea.Bottom - Height - Form1.topOf);

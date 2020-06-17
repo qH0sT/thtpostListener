@@ -82,11 +82,11 @@ namespace postListen
                                                 Invoke((MethodInvoker)delegate { 
                                                 if (checkBox2.Checked)
                                                 {
-                                                    new Bildirim(yazar, zaman, lvi.Text, true).Show();
+                                                    new Bildirim(yazar, zaman, lvi.Text, true, (int)numericUpDown2.Value).Show();
                                                 }
                                                 else
                                                 {
-                                                    new Bildirim(yazar, zaman, lvi.Text, false).Show();
+                                                    new Bildirim(yazar, zaman, lvi.Text, false, (int)numericUpDown2.Value).Show();
                                                 }
                                                 topOf += 250;                                             
                                                 });
@@ -177,6 +177,7 @@ namespace postListen
                 openedThread[listView1.SelectedItems[0].Text].Abort();
                 openedThread.Remove(listView1.SelectedItems[0].Text);
                 listView1.SelectedItems[0].Remove();
+                label1.Text = "Toplam: " + listView1.Items.Count.ToString();
             }
         }
 
