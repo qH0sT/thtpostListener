@@ -1,9 +1,11 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -17,18 +19,33 @@ namespace postListen
         }
         Dictionary<string, Thread> openedThread = new Dictionary<string, Thread>();
         public static int topOf = 0;
+        private string clear(string input)
+        {
+            //string doubleQuote = '"'.ToString();
+            string charList = File.ReadAllText("regular chars.txt"); //Kullanıcının sonradan editleyebilmesi için dosyadan okuyoruz.
+            //@"'<>!£#^+$.%½&:/{([)]=}?*\-_|@é~;,`qwertyuıopğüasdfghjklşizxcvbnmöç 1234567890" + doubleQuote;
+            foreach (char c in input) //başlıktaki emojileri temizliyoruz. Temizleme işlemini html dökümanında da yapıyoruz aşağıda.
+            {
+                if (charList.ToArray().Contains(Convert.ToChar(c.ToString().ToLower())) == false)
+                {
+                    input = input.Replace(c.ToString(), "");
+                }
+            }
+             return input.Trim().Replace("  ", " ");
+        }
         private void konuListen(string baslik, string kategoriLinki)
         {
             /*
             GeckoFx'den daha fazla uğraştırıyor ama proje boyutu da küçük oluyor, bu yüzden htmlagilitypack
             kullanıyorum bazı projelerde. Gecko kullansaydım daha az uğraşırdım ama proje boyutu artardı.
             */
+            baslik = clear(baslik);
             string istatistikler = "";
             string require = "";
             bool bulundu = false;
             string url = kategoriLinki;
             string yazar = "";
-            string zaman = "";
+            string zaman = "";           
             HtmlWeb web = new HtmlWeb();
             web.OverrideEncoding = Encoding.Default;
             while (true)
@@ -41,7 +58,7 @@ namespace postListen
                     {
                         foreach (var cocuk in node.ChildNodes)
                         {
-                            ListViewItem lvi = listView1.Items.Cast<ListViewItem>().Where(items => items.Text == baslik).First();
+                            ListViewItem lvi = listView1.Items.Cast<ListViewItem>().Where(items => clear(items.Text) == baslik).First();
                             require = cocuk.GetAttributeValue("id", "").ToString();
                             if (string.IsNullOrWhiteSpace(require) == false)
                             {
@@ -50,8 +67,8 @@ namespace postListen
                                     for (int i = 0; i < cocuk.ChildNodes.Count; i++)
                                     {
                                         foreach (var h in cocuk.ChildNodes[i].ChildNodes)
-                                        {
-                                            if (baslik == h.InnerText)
+                                        {                                          
+                                            if (baslik == Regex.Replace(h.InnerText, "&#[0-9]+;", "").Trim().Replace("  "," ")) //Emoji kodlarını replace ediyoruz.
                                             {
                                                 bulundu = true;
                                                 break;
@@ -100,7 +117,7 @@ namespace postListen
                             }
                         }
                     }
-                    catch (Exception) { }
+                    catch (Exception ex) { MessageBox.Show(ex.StackTrace); }
                     if (bulundu == true) { break; } 
                     //işimize yarayanı aldıktan sonra tüm döngülere break ekledim. Boşuna ilerlemesin döngüler.
                 }
@@ -138,7 +155,7 @@ namespace postListen
                 }
             }
         }
-
+        Thread the;
         private void button2_Click(object sender, EventArgs e)
         {
             if (listView1.Items.Count > 0)
@@ -147,7 +164,7 @@ namespace postListen
                 button3.Enabled = true;
                 foreach (ListViewItem konu in listView1.Items)
                 {
-                    Thread the = new Thread(() => konuListen(konu.Text, konu.SubItems[1].Text));
+                    the = new Thread(() => konuListen(konu.Text, konu.SubItems[1].Text));
                     the.Start();
                     openedThread.Add(konu.Text, the);
                 }
