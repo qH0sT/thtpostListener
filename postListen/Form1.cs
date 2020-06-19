@@ -28,10 +28,12 @@ namespace postListen
             {
                 if (charList.ToArray().Contains(Convert.ToChar(c.ToString().ToLower())) == false)
                 {
+                    input = input.Replace(" " + c.ToString() + " ", " ");
+                    input = input.Replace(" " + c.ToString(), " ");
                     input = input.Replace(c.ToString(), "");
                 }
             }
-             return input.Trim().Replace("  ", " ");
+             return input.Trim();
         }
         private void konuListen(string baslik, string kategoriLinki)
         {
@@ -67,8 +69,12 @@ namespace postListen
                                     for (int i = 0; i < cocuk.ChildNodes.Count; i++)
                                     {
                                         foreach (var h in cocuk.ChildNodes[i].ChildNodes)
-                                        {                                          
-                                            if (baslik == Regex.Replace(h.InnerText, "&#[0-9]+;", "").Trim().Replace("  "," ")) //Emoji kodlarını replace ediyoruz.
+                                        {
+                                            string innereText = h.InnerText;
+                                            innereText = Regex.Replace(innereText, " &#[0-9]+; ", " ").Trim();
+                                            innereText = Regex.Replace(innereText, " &#[0-9]+;", " ").Trim();
+                                            innereText = Regex.Replace(innereText, "&#[0-9]+;", "").Trim();
+                                            if (baslik == innereText) //Emoji kodlarını replace ediyoruz.
                                             {
                                                 bulundu = true;
                                                 break;
