@@ -15,7 +15,8 @@ namespace postListen
     {
         public Form1()
         {
-            InitializeComponent(); //Sonraki Güncelleme: Program çalışır vaziyette iken konu ekleme. Canım sıkılınca yapacağım :D
+            InitializeComponent(); 
+            //Sonraki Güncelleme: Program çalışır vaziyette iken konu ekleyip dinlemeye alma. Canım sıkılınca yapacağım :)
         }
         Dictionary<string, Thread> openedThread = new Dictionary<string, Thread>();
         public static int topOf = 0;
