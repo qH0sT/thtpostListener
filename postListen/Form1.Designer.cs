@@ -1,4 +1,4 @@
-﻿namespace postListen
+namespace postListen
 {
     partial class Form1
     {
@@ -140,7 +140,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(466, 20);
             this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "Forum için öneri";
+            this.textBox1.Text = "💣Hep Beraber Python Öğrenelim - 5.DERS 🛠 // 🛡PourLa⚔️";
             // 
             // textBox2
             // 
@@ -148,7 +148,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(466, 20);
             this.textBox2.TabIndex = 3;
-            this.textBox2.Text = "https://www.turkhackteam.org/forum-hakkinda/";
+            this.textBox2.Text = "https://www.turkhackteam.org/python/index3.html";
             // 
             // button2
             // 
@@ -359,6 +359,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -409,4 +410,3 @@
         private System.Windows.Forms.Label label7;
     }
 }
-
