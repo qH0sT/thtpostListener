@@ -1,4 +1,4 @@
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,8 +15,7 @@ namespace postListen
     {
         public Form1()
         {
-            InitializeComponent(); 
-            //Sonraki Güncelleme: Program çalışır vaziyette iken konu ekleyip dinlemeye alma. Canım sıkılınca yapacağım :)
+            InitializeComponent();
         }
         Dictionary<string, Thread> openedThread = new Dictionary<string, Thread>();
         public static int topOf = 0;
@@ -103,17 +102,39 @@ namespace postListen
                                         {
                                             if (int.Parse(comments) > int.Parse(lvi.SubItems[2].Text))
                                             {
-                                                Invoke((MethodInvoker)delegate { 
-                                                if (checkBox2.Checked)
+                                                if (checkBox3.Checked == false)
                                                 {
-                                                    new Bildirim(yazar, zaman, lvi.Text, true, (int)numericUpDown2.Value).Show();
+                                                    Invoke((MethodInvoker)delegate
+                                                    {
+                                                        if (checkBox2.Checked)
+                                                        {
+                                                            new Bildirim(yazar, zaman, lvi.Text, true, (int)numericUpDown2.Value).Show();
+                                                        }
+                                                        else
+                                                        {
+                                                            new Bildirim(yazar, zaman, lvi.Text, false, (int)numericUpDown2.Value).Show();
+                                                        }
+                                                        topOf += 250;
+                                                    });
                                                 }
                                                 else
                                                 {
-                                                    new Bildirim(yazar, zaman, lvi.Text, false, (int)numericUpDown2.Value).Show();
+                                                    if(yazar != textBox3.Text)
+                                                    {
+                                                        Invoke((MethodInvoker)delegate
+                                                        {
+                                                            if (checkBox2.Checked)
+                                                            {
+                                                                new Bildirim(yazar, zaman, lvi.Text, true, (int)numericUpDown2.Value).Show();
+                                                            }
+                                                            else
+                                                            {
+                                                                new Bildirim(yazar, zaman, lvi.Text, false, (int)numericUpDown2.Value).Show();
+                                                            }
+                                                            topOf += 250;
+                                                        });
+                                                    }
                                                 }
-                                                topOf += 250;                                             
-                                                });
                                             }                                          
                                         }                                  
                                         lvi.SubItems[2].Text = comments;                                        
@@ -136,18 +157,21 @@ namespace postListen
             if (checkBox1.Checked == false)
             {
                 ListViewItem lvi = new ListViewItem(textBox1.Text.Trim());
+                if (listView1.Items.Cast<ListViewItem>().Where(items => items.Text == lvi.Text).Count() == 0)
+                {
                 lvi.SubItems.Add(textBox2.Text);
                 lvi.SubItems.Add("");
                 lvi.SubItems.Add("");
-                lvi.SubItems.Add("");
-                if (listView1.Items.Cast<ListViewItem>().Where(items => items.Text == lvi.Text).Count() == 0)
+                lvi.SubItems.Add("");           
+                listView1.Items.Add(lvi);                            
+                if(button2.Enabled == false)
                 {
-                    listView1.Items.Add(lvi);
-                }
+                        the = new Thread(() => konuListen(lvi.Text, lvi.SubItems[1].Text));
+                        the.Start();
+                        openedThread.Add(lvi.Text, the);
+               }
                 label1.Text = "Toplam: " + listView1.Items.Count.ToString();
-                if(button2.Enabled == false) {
-                MessageBox.Show("Program çalışıyorken yeni bir konu eklediniz. Programı iptal edip tekrar başlatın.", 
-                "SagoistCoding"); }
+               }
             }
             else
             {
