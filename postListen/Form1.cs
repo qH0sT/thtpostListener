@@ -131,7 +131,7 @@ namespace postListen
                             }
                         }
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.StackTrace); }
+                    catch (Exception) { }
                     if (bulundu == true) { break; } 
                     //işimize yarayanı aldıktan sonra tüm döngülere break ekledim. Boşuna ilerlemesin döngüler.
                 }
