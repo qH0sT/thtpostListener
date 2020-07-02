@@ -1,4 +1,4 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -106,15 +106,8 @@ namespace postListen
                                                 {
                                                     Invoke((MethodInvoker)delegate
                                                     {
-                                                        if (checkBox2.Checked)
-                                                        {
-                                                            new Bildirim(yazar, zaman, lvi.Text, true, (int)numericUpDown2.Value).Show();
-                                                        }
-                                                        else
-                                                        {
-                                                            new Bildirim(yazar, zaman, lvi.Text, false, (int)numericUpDown2.Value).Show();
-                                                        }
-                                                        topOf += 250;
+                                                      new Bildirim(yazar, zaman, lvi.Text, checkBox2.Checked, (int)numericUpDown2.Value).Show();                                                       
+                                                      topOf += 250;
                                                     });
                                                 }
                                                 else
@@ -123,14 +116,7 @@ namespace postListen
                                                     {
                                                         Invoke((MethodInvoker)delegate
                                                         {
-                                                            if (checkBox2.Checked)
-                                                            {
-                                                                new Bildirim(yazar, zaman, lvi.Text, true, (int)numericUpDown2.Value).Show();
-                                                            }
-                                                            else
-                                                            {
-                                                                new Bildirim(yazar, zaman, lvi.Text, false, (int)numericUpDown2.Value).Show();
-                                                            }
+                                                            new Bildirim(yazar, zaman, lvi.Text, checkBox2.Checked, (int)numericUpDown2.Value).Show();
                                                             topOf += 250;
                                                         });
                                                     }
